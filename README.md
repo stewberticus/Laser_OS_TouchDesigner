@@ -37,6 +37,31 @@ To install on your system, copy the contents of **Plugins** into:
 
 For more information, please see: <https://docs.derivative.ca/Custom_Operators>
 
+## Building From Source On macOS
+
+There is now a CMake build skeleton for the plugin so backend work can proceed on macOS without the Visual Studio project.
+
+Current assumptions:
+
+- you are building on macOS
+- the workspace also contains the sibling `laserdocklib/` checkout
+- `laserdocklib` has already been built, producing `../laserdocklib/build-macos/lib/liblaserdocklib.dylib`
+
+Example:
+
+```bash
+cd Laser_OS_TouchDesigner
+cmake -S . -B build-macos -G Ninja
+cmake --build build-macos --parallel
+```
+
+If your `laserdocklib` headers or dylib are somewhere else, override:
+
+- `LASERDOCKLIB_INCLUDE_DIR`
+- `LASERDOCKLIB_LIBRARY`
+
+This CMake path is intended as a macOS build skeleton for the plugin itself. TouchDesigner-specific macOS packaging and install layout still need to be finalized separately.
+
 ## Using the Plugin
 
 Once the plugin is installed and approved to load, it will appear in the **OP Create Dialog** under the **Custom** tab.

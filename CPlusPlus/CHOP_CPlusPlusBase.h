@@ -35,6 +35,12 @@
 #ifndef __CHOP_CPlusPlusBase__
 #define __CHOP_CPlusPlusBase__
 
+#ifndef _WIN32
+#ifndef __cdecl
+#define __cdecl
+#endif
+#endif
+
 #include "CPlusPlus_Common.h"
 
 

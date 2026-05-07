@@ -95,7 +95,7 @@ Laser_OS_CHOP::disconnect() {
 	if (device) {
 		device->disable_output();
 		bool isClearRingbuffer = device->clear_ringbuffer();
-		device = NULL;
+		device = nullptr;
 	}
 }
 
@@ -206,7 +206,11 @@ Laser_OS_CHOP::setupParameters(OP_ParameterManager* manager, void* reserved1)
 			printf("%s\n", d);
 			int nsize = 16;
 			char* name = (char*) malloc(sizeof(char) * nsize);
+		#ifdef _WIN32
 			sprintf_s(name, nsize, "Wicked%d", iX);
+		#else
+			snprintf(name, nsize, "Wicked%d", iX);
+		#endif
 			names_strs.push_back(name);
 			labels_strs.push_back(d);
 			free(d);
@@ -307,12 +311,12 @@ void Laser_OS_CHOP::execute(CHOP_Output* output, const OP_Inputs* inputs, void* 
 	bool enabled = inputs->getParInt("Enable");
 	int dev = inputs->getParInt("Device");
 	if (dev != connectedDev) {
-		device = NULL;
+		device = nullptr;
 	}
 	if (dev > 0 && inputs->getNumInputs() > 0 && enabled) {
 		
 		const OP_CHOPInput* in = inputs->getInputCHOP(0);
-		if (device == NULL) {
+		if (device == nullptr) {
 			print_string("Initializing");
 			
 			samples = (LaserdockSample*)calloc(sizeof(LaserdockSample), in->numSamples);
